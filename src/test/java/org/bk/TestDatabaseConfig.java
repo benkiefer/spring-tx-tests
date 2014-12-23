@@ -1,6 +1,7 @@
 package org.bk;
 
 import com.googlecode.flyway.core.Flyway;
+import org.bk.service.IServiceHelper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
@@ -10,6 +11,8 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 import javax.sql.DataSource;
 import java.util.Properties;
+
+import static org.mockito.Mockito.mock;
 
 @Configuration
 public class TestDatabaseConfig {
@@ -25,6 +28,11 @@ public class TestDatabaseConfig {
         jpaProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
         entityManager.setJpaProperties(jpaProperties);
         return entityManager;
+    }
+
+    @Bean
+    public IServiceHelper serviceHelper() {
+        return mock(IServiceHelper.class);
     }
 
     @Bean
