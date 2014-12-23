@@ -30,7 +30,7 @@ public class TestDatabaseConfig {
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setUrl("jdbc:h2:mem:test;MODE=MYSQL;DB_CLOSE_DELAY=-1;INIT=INIT=CREATE SCHEMA IF NOT EXISTS \"public\";");
+        dataSource.setUrl("jdbc:h2:mem:test;MODE=MySQL;DB_CLOSE_DELAY=-1;INIT=CREATE SCHEMA IF NOT EXISTS \"public\"\\;");
         return dataSource;
     }
 
@@ -38,6 +38,7 @@ public class TestDatabaseConfig {
     public Flyway flyway() {
         Flyway flyway = new Flyway();
         flyway.setDataSource(dataSource());
+        flyway.setSchemas("PUBLIC");
         return flyway;
     }
 }
