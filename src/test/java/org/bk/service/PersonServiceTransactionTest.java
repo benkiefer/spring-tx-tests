@@ -28,7 +28,7 @@ public class PersonServiceTransactionTest extends AbstractTransactionalTestNGSpr
         assertNotNull(personRepository.findOne(person.getId()));
     }
 
-    @Test(invocationCount = 4)
+    @Test
     public void createFailuresAreRolledBack() {
         doThrow(new RuntimeException("BOOM!")).when(serviceHelper).help();
         Person requested = person();
