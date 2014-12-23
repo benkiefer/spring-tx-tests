@@ -11,9 +11,7 @@ import org.springframework.test.context.testng.AbstractTransactionalTestNGSpring
 import org.testng.annotations.Test;
 
 import static org.mockito.Mockito.doThrow;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.fail;
+import static org.testng.Assert.*;
 
 @Test
 @ContextConfiguration(classes = {ServiceConfig.class, TestDatabaseConfig.class, HibernateJpaAutoConfiguration.class})
@@ -30,7 +28,7 @@ public class PersonServiceTransactionTest extends AbstractTransactionalTestNGSpr
         assertNotNull(personRepository.findOne(person.getId()));
     }
 
-    @Test
+    @Test(invocationCount = 4)
     public void createFailuresAreRolledBack() {
         doThrow(new RuntimeException("BOOM!")).when(serviceHelper).help();
         Person requested = person();
@@ -39,7 +37,7 @@ public class PersonServiceTransactionTest extends AbstractTransactionalTestNGSpr
             fail("Expected exception");
         }catch (RuntimeException e) {
             assertEquals("BOOM!", e.getMessage());
-            assertNotNull(personRepository.findOne(requested.getId()));
+            assertNull(personRepository.findOne(requested.getId()));
         }
     }
 
